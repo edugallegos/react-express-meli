@@ -4,8 +4,8 @@ import { Routes, Route, createSearchParams, useNavigate, useSearchParams } from 
 import Layout from './components/Layout'
 
 const Home = React.lazy(() => import('./pages/Home'))
-const Items = React.lazy(() => import('./pages/Items'))
-const Item = React.lazy(() => import('./pages/Item'))
+const ItemsPage = React.lazy(() => import('./pages/ItemsPage'))
+const ItemPage = React.lazy(() => import('./pages/ItemPage'))
 
 const Loading = () => <p>Loading ...</p>
 
@@ -28,8 +28,8 @@ function App() {
           }
         >
           <Route path='/' element={<Home />} />
-          <Route path='/items/:id' element={<Item />} />
-          <Route path='/items' element={<Items />} />
+          <Route path='/items/:id' element={<ItemPage />} />
+          <Route path='/items' element={<ItemsPage />} />
         </Route>
       </Routes>
     </React.Suspense>

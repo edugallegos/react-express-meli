@@ -1,96 +1,140 @@
-import {Request, Response} from 'express';
-import axios from "axios";
+import { Request, Response } from "express";
+import axios, { isAxiosError } from "axios";
 
-const BASE_URL = "https://api.mercadolibre.com/"
+const BASE_URL = "https://api.mercadolibre.com/";
 const AUTHOR = {
-    name: "Eduardo",
-    lastname: "Gallegos"
-}
+  name: "Eduardo",
+  lastname: "Gallegos",
+};
 
 type Item = {
-    id: string,
-    title: string,
-    category_id: string,
-    currency_id: string,
-    price: number,
-    thumbnail: string,
-    condition: string
-    shipping: {
-        free_shipping: boolean
-    },
-    sold_quantity: number,
-    descriptions: string[]
-}
+  id: string;
+  title: string;
+  category_id: string;
+  currency_id: string;
+  price: number;
+  thumbnail: string;
+  condition: string;
+  shipping: {
+    free_shipping: boolean;
+  };
+  sold_quantity: number;
+  descriptions: string[];
+  address?: {
+    state_id: string;
+    state_name: string;
+    city_id?: string;
+    city_name: string;
+  };
+  pictures?: { id: string; url: string }[];
+};
 
 const formatItem = (item: Item) => {
-    return {
-        id: item.id,
-        title: item.title,
-        price: {
-            currency: item.currency_id,
-            amount: item.price,
-            decimals: item.price
-        },
-        picture: item.thumbnail,
-        condition: item.condition,
-        free_shipping: item.shipping.free_shipping,
-    }
-}
+  const amount = Math.trunc(item.price);
+
+  return {
+    id: item.id,
+    title: item.title,
+    price: {
+      currency: item.currency_id,
+      amount,
+      decimals: Number((item.price - amount).toFixed(2)),
+    },
+    picture: item.pictures ? item.pictures[0].url : item.thumbnail,
+    condition: item.condition,
+    free_shipping: item.shipping.free_shipping,
+    state: item.address?.state_name,
+  };
+};
 
 const formatItemDetails = (item: Item, description: string) => {
-    return {
-        ...formatItem(item),
-        sold_quantity: item.sold_quantity,
-        description
-    }
-}
+  return {
+    ...formatItem(item),
+    sold_quantity: item.sold_quantity,
+    description,
+  };
+};
 
-const getCategoriesInItems = (items: Item[]): string[] => {
-    return items.reduce((acc, value) => {
-        if (acc.indexOf(value.category_id) === -1) {
-            acc.push(value.category_id)
-        }
-        return acc
-    }, [] as string[])
-}
+const getCategories = (
+  availableFilters: {
+    id: string;
+    values: { id: string; name: string; results: number }[];
+  }[]
+): string[] => {
+  const categoriesFilter = availableFilters.find(
+    (availableFilter) => availableFilter.id === "category"
+  );
 
+  if (!categoriesFilter) {
+    return [];
+  }
+
+  return categoriesFilter.values
+    .sort((a, b) =>
+      a.results > b.results ? -1 : a.results < b.results ? 1 : 0
+    )
+    .map((item) => item.name);
+};
 
 const getItems = async (req: Request, res: Response) => {
-    try {
-        const response = await axios(`${BASE_URL}sites/MLA/search?q=${req.query.q}`);
+  try {
+    const response = await axios.get(`${BASE_URL}sites/MLA/search`, {
+      params: {
+        q: req.query.q,
+        limit: req.query.limit,
+      },
+    });
 
-        return res.status(200).json({
-            author: AUTHOR,
-            categories: getCategoriesInItems(response.data.results),
-            items: response.data.results.map(formatItem)
-        })
-
-    } catch (e) {
-        return res.status(500).json({
-            error: e
-        })
+    return res.status(200).json({
+      author: AUTHOR,
+      categories: getCategories(response.data.available_filters),
+      items: response.data.results.map(formatItem),
+    });
+  } catch (e) {
+    if (isAxiosError(e)) {
+      return res.status(e.status || 500).json({
+        error: e.message,
+      });
     }
-}
+
+    return res.status(500).json({
+      error: e,
+    });
+  }
+};
 
 const getItem = async (req: Request, res: Response) => {
-    try {
-        const itemRequest = axios(`${BASE_URL}items/${req.params.id}`);
-        const descriptionRequest = axios(`${BASE_URL}items/${req.params.id}/description`);
+  try {
+    const itemRequest = axios(`${BASE_URL}items/${req.params.id}`);
+    const descriptionRequest = axios(
+      `${BASE_URL}items/${req.params.id}/description`
+    );
+    const [item, description] = await Promise.all([
+      itemRequest,
+      descriptionRequest,
+    ]);
+    const category = await axios(
+      `${BASE_URL}categories/${item.data.category_id}`
+    );
 
-        const responses = await Promise.all([itemRequest, descriptionRequest])
-
-        return res.status(200).json({
-            author: AUTHOR,
-            item: formatItemDetails(responses[0].data, responses[1].data.plain_text)
-        })
-    } catch (e) {
-        return res.status(500).json({
-            error: e
-        })
+    return res.status(200).json({
+      author: AUTHOR,
+      item: formatItemDetails(item.data, description.data.plain_text),
+      categories: category.data.path_from_root,
+    });
+  } catch (e) {
+    if (isAxiosError(e)) {
+      return res.status(e.status || 500).json({
+        error: e.message,
+      });
     }
-}
+    return res.status(500).json({
+      error: e,
+    });
+  }
+};
 
 module.exports = {
-    getItems,
-    getItem
-}
+  getItems,
+  getItem,
+};

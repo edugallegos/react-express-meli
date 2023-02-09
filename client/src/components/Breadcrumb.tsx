@@ -1,8 +1,9 @@
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg'
 
-const Breadcrumb = () => {
-  const items = ['sdadsas', 'ddsdssd', '4343']
-
+interface BreadcrumbProps {
+  items: string[]
+}
+const Breadcrumb = ({ items }: BreadcrumbProps) => {
   return (
     <nav className='breadcrumb'>
       <ol>

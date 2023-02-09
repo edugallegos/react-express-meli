@@ -3,7 +3,7 @@ import logo from '../assets/Logo_ML.png'
 import logo2x from '../assets/Logo_ML@2x.png.png.png'
 import searchIcon from '../assets/ic_Search.png'
 import searchIcon2x from '../assets/ic_Search@2x.png.png.png'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface NavBarProps {
   onSearch(query: string): void
@@ -11,6 +11,7 @@ interface NavBarProps {
 }
 const NavBar = ({ onSearch, initialSearch }: NavBarProps) => {
   const [searchValue, setSearchValue] = useState(initialSearch)
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSearch(searchValue)
@@ -19,6 +20,10 @@ const NavBar = ({ onSearch, initialSearch }: NavBarProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
   }
+
+  useEffect(() => {
+    setSearchValue(initialSearch)
+  }, [initialSearch])
 
   return (
     <header role='banner'>
