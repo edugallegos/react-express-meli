@@ -2,7 +2,7 @@ import axios from 'axios'
 import type { Item } from '../types/Item'
 import { BASE_URL } from '../utils/constants'
 
-type GetItemsResponse = {
+export type GetItemsResponse = {
   author: {
     name: string
     lastname: string
@@ -11,7 +11,7 @@ type GetItemsResponse = {
   items: Item[]
 }
 
-type GetItemResponse = {
+export type GetItemResponse = {
   author: {
     name: string
     lastname: string

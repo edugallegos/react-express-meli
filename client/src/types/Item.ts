@@ -12,6 +12,6 @@ export type Item = {
   condition: keyof typeof CONDITIONS
   free_shipping: boolean
   description?: string
-  state: string
+  state?: string
   sold_quantity?: number
 }
