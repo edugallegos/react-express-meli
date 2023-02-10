@@ -1,7 +1,8 @@
-import Breadcrumb from '../components/Breadcrumb'
 import {useParams} from 'react-router-dom'
-import ProductDetails from '../components/ProductDetails'
+
+import Breadcrumb from '../components/Breadcrumb'
 import ErrorMessage from '../components/ErrorMessage'
+import ProductDetails from '../components/ProductDetails'
 import useGetProduct from '../hooks/useGetProduct'
 
 const ItemPage = () => {

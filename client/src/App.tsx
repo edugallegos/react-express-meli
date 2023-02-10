@@ -1,6 +1,8 @@
-import React from 'react'
 import './App.scss'
-import { Routes, Route, createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
+
+import React from 'react'
+import { createSearchParams, Route, Routes, useNavigate, useSearchParams } from 'react-router-dom'
+
 import Layout from './components/Layout'
 
 const Home = React.lazy(() => import('./pages/Home'))

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Item } from '../types/Item'
+
 import { getItem } from '../services/items.service'
+import { Item } from '../types/Item'
 import { COMMON_ERROR_MESSAGE } from '../utils/constants'
 
 const useGetProduct = (id?: string) => {

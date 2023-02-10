@@ -1,5 +1,5 @@
-import { CONDITIONS } from '../utils/constants'
 import { Item } from '../types/Item'
+import { CONDITIONS } from '../utils/constants'
 
 interface ProductDetailsProps {
   product: Item

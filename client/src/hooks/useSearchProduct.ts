@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Item } from '../types/Item'
+
 import { getItems } from '../services/items.service'
+import { Item } from '../types/Item'
 
 const useSearchProduct = (searchQuery: string | null) => {
   const [products, setProducts] = useState<Item[]>([])

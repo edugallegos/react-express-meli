@@ -1,6 +1,7 @@
+import React from 'react'
+
 import shippingIcon from '../assets/ic_shipping.png'
 import shippingIcon2x from '../assets/ic_shipping@2x.png.png.png'
-import React from 'react'
 import type { Item } from '../types/Item'
 
 interface ProductItemProps {

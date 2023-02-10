@@ -1,10 +1,11 @@
-import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
-import { getItems } from '../../services/items.service'
-import ItemsPage from '../ItemsPage'
-import { Item } from '../../types/Item'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+
+import { getItems } from '../../services/items.service'
+import { Item } from '../../types/Item'
+import ItemsPage from '../ItemsPage'
 
 jest.mock('../../services/items.service')
 
