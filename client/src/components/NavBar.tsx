@@ -34,11 +34,12 @@ const NavBar = ({ onSearch, initialSearch }: NavBarProps) => {
         <form onSubmit={handleSubmit} className='navbar__search'>
           <input
             type='text'
+            data-testId="search-input"
             onChange={handleChange}
             placeholder='Nunca dejes de buscar'
             value={searchValue}
           />
-          <button type='submit'>
+          <button type='submit' data-testId="search-submit">
             <img src={searchIcon} alt='icono buscar' title='Buscar' srcSet={`${searchIcon2x} 2x`} />
           </button>
         </form>
