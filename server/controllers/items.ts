@@ -76,7 +76,7 @@ const getCategories = (
     .map((item) => item.name);
 };
 
-const getItems = async (req: Request, res: Response) => {
+export const getItems = async (req: Request, res: Response) => {
   try {
     const response = await axios.get(`${BASE_URL}sites/MLA/search`, {
       params: {
@@ -91,6 +91,7 @@ const getItems = async (req: Request, res: Response) => {
       items: response.data.results.map(formatItem),
     });
   } catch (e) {
+    console.log(e);
     if (isAxiosError(e)) {
       return res.status(e.status || 500).json({
         error: e.message,
@@ -103,17 +104,17 @@ const getItems = async (req: Request, res: Response) => {
   }
 };
 
-const getItem = async (req: Request, res: Response) => {
+export const getItem = async (req: Request, res: Response) => {
   try {
-    const itemRequest = axios(`${BASE_URL}items/${req.params.id}`);
-    const descriptionRequest = axios(
+    const itemRequest = axios.get(`${BASE_URL}items/${req.params.id}`);
+    const descriptionRequest = axios.get(
       `${BASE_URL}items/${req.params.id}/description`
     );
     const [item, description] = await Promise.all([
       itemRequest,
       descriptionRequest,
     ]);
-    const category = await axios(
+    const category = await axios.get(
       `${BASE_URL}categories/${item.data.category_id}`
     );
 
@@ -123,6 +124,7 @@ const getItem = async (req: Request, res: Response) => {
       categories: category.data.path_from_root,
     });
   } catch (e) {
+    console.log(e);
     if (isAxiosError(e)) {
       return res.status(e.status || 500).json({
         error: e.message,

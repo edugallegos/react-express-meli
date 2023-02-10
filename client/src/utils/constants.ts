@@ -5,3 +5,5 @@ export const CONDITIONS = {
   not_specified: ' No Especificado',
   used: 'Usado',
 }
+
+export const COMMON_ERROR_MESSAGE = 'Ocurrió un error en la petición.'

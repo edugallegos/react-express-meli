@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 import express, {Express} from "express";
 import cors from "cors";
-
-const itemsRoutes = require("./routes/items");
+import router from "./routes/items";
 
 dotenv.config();
 
@@ -14,7 +13,9 @@ app.use(cors());
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port}`);
 });
 
-app.use('/api/items', itemsRoutes)
+app.use("/api/items", router);
+
+export default app;

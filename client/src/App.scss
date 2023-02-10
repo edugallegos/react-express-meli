@@ -141,8 +141,10 @@ header {
   .left-column {
     flex: 7;
     img {
-      width: 680px;
-      height: 680px;
+      width: 100%;
+      max-width: 680px;
+      height: auto;
+      max-height: 680px;
     }
     .product__description {
       h2 {
@@ -189,4 +191,11 @@ header {
       font-size: 18px;
     }
   }
+}
+
+.error-message {
+  padding: 10px;
+  margin: 10px;
+  color: #ba3939;
+  background: #ffe0e0;
 }
