@@ -1,0 +1,49 @@
+@import '../variables';
+
+.product__item {
+  display: flex;
+  padding: 16px;
+  border: 1px solid $neutral-light-color;
+  img {
+    width: 180px;
+    height: 180px;
+    border-radius: 4px;
+  }
+  & .product__details {
+    display: flex;
+    width: 100%;
+    padding: 0;
+
+    & .left-column {
+      flex: 3;
+
+      & .product__price {
+        display: flex;
+        align-items: center;
+
+        img {
+          margin: 0 5px;
+          width: 24px;
+          height: 24px;
+        }
+
+        padding: 16px;
+        font-size: 24px;
+      }
+
+      & .product__description {
+        padding: 16px;
+        font-size: 18px;
+      }
+    }
+
+    & .right-column {
+      flex: 1;
+
+      & .product__location {
+        padding: 16px;
+        font-size: 12px;
+      }
+    }
+  }
+}

@@ -4,13 +4,13 @@ import axios from "axios";
 import {
   responseGetItemsApiMeli,
   expectedGetItemsResponse,
-} from "./mockedGetItemsData";
+} from "../__mocks__/mockedGetItemsData";
 import {
   expectedGetItemResponse,
   responseGetCategoryApiMeli,
   responseGetDescriptionApiMeli,
   responseGetItemApiMeli,
-} from "./mockedGetItemData";
+} from "../__mocks__/mockedGetItemData";
 
 jest.mock("axios");
 

@@ -4,6 +4,7 @@ import { CONDITIONS } from '../utils/constants'
 interface ProductDetailsProps {
   product: Item
 }
+
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   return (
     <div className='product__container'>
