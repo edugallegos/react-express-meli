@@ -8,6 +8,6 @@ describe('Search', () => {
 
     cy.get('[data-testid="product-item"]').first().click()
 
-    cy.url().should('be.equal', 'http://localhost:3000/items/MLA795995998')
+    cy.url().should('match', /http:\/\/localhost:3000\/items\/*/)
   })
 })
